@@ -50,3 +50,9 @@ Format: `{title} - {date} - {agent & model}`
 ## Project skeleton setup & initial hosting - 2026-11-16 - Claude Code & Claude Opus 5.5
 
 > go ahead and setup the project skeleton, since i will need some time gathering all the datas. then host it first as i would like to observe the results.
+
+---
+
+## Repository made public, proceed with hosting - 2026-11-16 - Claude Code & Claude Opus 5.5
+
+> alright, it's public.
