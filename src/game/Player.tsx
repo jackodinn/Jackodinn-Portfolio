@@ -1,16 +1,24 @@
 import { useKeyboardControls } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { CapsuleCollider, RigidBody, type RapierRigidBody } from '@react-three/rapier'
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { Vector3, type Group } from 'three'
 import { useGameStore } from '../store/useGameStore'
+import { Character } from './Character'
 import type { Controls } from './controls'
-import { SPAWN } from './layout'
+import { NEON, SPAWN } from './layout'
 
 const SPEED = 6
 /** MOBA-style angled top-down camera, relative to the player. */
-const CAMERA_OFFSET = new Vector3(0, 20, 15)
+const CAMERA_OFFSET = new Vector3(0, 15, 11.5)
+/** Mouse-wheel / pinch zoom range, as a multiple of CAMERA_OFFSET. */
+const ZOOM_MIN = 0.6
+const ZOOM_MAX = 1.6
 const ARRIVE_DISTANCE = 0.25
+/** Physics capsule: half-height of the cylinder part + radius. */
+const CAPSULE_HALF = 0.55
+const CAPSULE_RADIUS = 0.4
+const FOOT_Y = -(CAPSULE_HALF + CAPSULE_RADIUS)
 
 const direction = new Vector3()
 const cameraGoal = new Vector3()
@@ -22,14 +30,23 @@ function lerpAngle(from: number, to: number, t: number) {
   return from + delta * t
 }
 
-/**
- * Placeholder hero: a capsule with a "visor" showing facing direction.
- * Swap the <group> contents for a rigged glTF character later.
- */
+/** The player: physics capsule + animated character + follow camera. */
 export function Player() {
   const body = useRef<RapierRigidBody>(null)
   const model = useRef<Group>(null)
+  const speed = useRef(0)
+  // Portrait screens (phones) start zoomed out so more of the city fits.
+  const zoom = useRef(window.innerWidth < window.innerHeight ? 1.4 : 1)
   const [, getKeys] = useKeyboardControls<Controls>()
+
+  useEffect(() => {
+    const onWheel = (e: WheelEvent) => {
+      if (useGameStore.getState().activePanel) return
+      zoom.current = Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, zoom.current * Math.exp(e.deltaY * 0.001)))
+    }
+    window.addEventListener('wheel', onWheel, { passive: true })
+    return () => window.removeEventListener('wheel', onWheel)
+  }, [])
 
   useFrame((state, delta) => {
     const rb = body.current
@@ -61,6 +78,7 @@ export function Player() {
     if (moving) direction.normalize().multiplyScalar(SPEED)
     const { y } = rb.linvel()
     rb.setLinvel({ x: direction.x, y, z: direction.z }, true)
+    speed.current = moving ? SPEED : 0
 
     if (model.current && moving) {
       const target = Math.atan2(direction.x, direction.z)
@@ -68,7 +86,7 @@ export function Player() {
     }
 
     // Smooth camera follow.
-    cameraGoal.set(pos.x, pos.y, pos.z).add(CAMERA_OFFSET)
+    cameraGoal.copy(CAMERA_OFFSET).multiplyScalar(zoom.current).add(pos)
     state.camera.position.lerp(cameraGoal, 1 - Math.exp(-5 * delta))
     lookAt.set(pos.x, pos.y, pos.z)
     state.camera.lookAt(lookAt)
@@ -83,17 +101,17 @@ export function Player() {
       enabledRotations={[false, false, false]}
       linearDamping={0.5}
     >
-      <CapsuleCollider args={[0.5, 0.5]} />
+      <CapsuleCollider args={[CAPSULE_HALF, CAPSULE_RADIUS]} />
       <group ref={model}>
-        <mesh castShadow position={[0, 0, 0]}>
-          <capsuleGeometry args={[0.5, 1, 8, 16]} />
-          <meshStandardMaterial color="#f4f1de" />
-        </mesh>
-        <mesh castShadow position={[0, 0.35, 0.38]}>
-          <boxGeometry args={[0.6, 0.22, 0.3]} />
-          <meshStandardMaterial color="#3d405b" />
-        </mesh>
+        <Character speed={speed} footY={FOOT_Y} />
       </group>
+      {/* Soft key light so the avatar reads against the night city */}
+      <pointLight position={[0, 2.2, 1.6]} color="#cfe6ff" intensity={9} distance={7} decay={2} />
+      {/* Neon ground ring under the player */}
+      <mesh position={[0, FOOT_Y + 0.03, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+        <ringGeometry args={[0.55, 0.65, 40]} />
+        <meshBasicMaterial color={NEON.cyan} toneMapped={false} transparent opacity={0.7} />
+      </mesh>
     </RigidBody>
   )
 }

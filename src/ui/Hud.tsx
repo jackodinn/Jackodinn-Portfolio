@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { portfolio } from '../data/portfolio'
+import { SKINS } from '../game/avatar'
 import { useGameStore } from '../store/useGameStore'
 import { InfoPanel } from './InfoPanel'
 
@@ -10,6 +11,9 @@ export function Hud() {
   const activePanel = useGameStore((s) => s.activePanel)
   const openPanel = useGameStore((s) => s.openPanel)
   const closePanel = useGameStore((s) => s.closePanel)
+  const skin = useGameStore((s) => s.skin)
+  const nextSkin = useGameStore((s) => s.nextSkin)
+  const skinLabel = SKINS.find((k) => k.id === skin)?.label
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -28,9 +32,14 @@ export function Hud() {
           <strong>{portfolio.profile.name}</strong>
           <span>{portfolio.profile.role}</span>
         </div>
-        <a className="button" href="#/classic">
-          Classic view
-        </a>
+        <div className="hud-actions">
+          <button className="button" onClick={nextSkin} title="Change outfit">
+            Outfit: {skinLabel}
+          </button>
+          <a className="button" href="#/classic">
+            Classic view
+          </a>
+        </div>
       </header>
 
       {nearby && !activePanel && (
