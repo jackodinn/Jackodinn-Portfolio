@@ -25,3 +25,9 @@ Format: `{title} - {date} - {agent & model}`
 > alright, lemme research for some language & hosting options.
 > from the first image uploaded, ive research a bit on the markup language options.
 > here's the thing, if im making a portfolio, that looks like a single player rpg game, having a top down view like the League of Legends or MLBB, and the mechanics works like a pokemon game, which framework is possible? can the github hosting support it?
+
+---
+
+## 3D framework choice: Three.js vs Babylon.js with Vite - 2026-11-16 - Claude Code & Claude Opus 5.5
+
+> ah i would like a 3d view tho. anyways three.js/babylon.js with vite? are these good option or anything else is suitable for three/babylon ?
