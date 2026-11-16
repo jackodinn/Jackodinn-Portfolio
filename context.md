@@ -31,3 +31,9 @@ Format: `{title} - {date} - {agent & model}`
 ## 3D framework choice: Three.js vs Babylon.js with Vite - 2026-11-16 - Claude Code & Claude Opus 5.5
 
 > ah i would like a 3d view tho. anyways three.js/babylon.js with vite? are these good option or anything else is suitable for three/babylon ?
+
+---
+
+## Babylon.js with React or Vite - 2026-11-16 - Claude Code & Claude Opus 5.5
+
+> 1 question, does babylon.js fit with react better or vite better? im a react guy and would want best animations possible, it's a serious project that i will be working on.
