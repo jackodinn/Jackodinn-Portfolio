@@ -62,3 +62,9 @@ Format: `{title} - {date} - {agent & model}`
 ## Pages source set to GitHub Actions, re-run deploy - 2026-11-16 - Claude Code & Claude Opus 5.5
 
 > alright, it's now github actions. what now?
+
+---
+
+## Cyberpunk city style & human character - 2026-11-16 - Claude Code & Claude Opus 5.5
+
+> try cyberpunk city style, and i want the person to be an actual person instead of a pill like
