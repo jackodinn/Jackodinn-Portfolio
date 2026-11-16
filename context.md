@@ -68,3 +68,9 @@ Format: `{title} - {date} - {agent & model}`
 ## Cyberpunk city style & human character - 2026-11-16 - Claude Code & Claude Opus 5.5
 
 > try cyberpunk city style, and i want the person to be an actual person instead of a pill like
+
+---
+
+## Merge cyberpunk update into main - 2026-11-16 - Claude Code & Claude Opus 5.5
+
+> merge them first.
