@@ -56,3 +56,9 @@ Format: `{title} - {date} - {agent & model}`
 ## Repository made public, proceed with hosting - 2026-11-16 - Claude Code & Claude Opus 5.5
 
 > alright, it's public.
+
+---
+
+## Pages source set to GitHub Actions, re-run deploy - 2026-11-16 - Claude Code & Claude Opus 5.5
+
+> alright, it's now github actions. what now?
