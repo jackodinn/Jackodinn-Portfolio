@@ -37,3 +37,10 @@ Format: `{title} - {date} - {agent & model}`
 ## Babylon.js with React or Vite - 2026-11-16 - Claude Code & Claude Opus 5.5
 
 > 1 question, does babylon.js fit with react better or vite better? im a react guy and would want best animations possible, it's a serious project that i will be working on.
+
+---
+
+## Portfolio contents: mandatory vs suggested - 2026-11-16 - Claude Code & Claude Opus 5.5
+
+> ok i think we will use r3f then.
+> now about the portfolio contents, what should i put (suggestion) and what do i need to put (mandatory)?
